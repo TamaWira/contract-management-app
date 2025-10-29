@@ -1,14 +1,18 @@
 import { Dock, Header } from "@/components/molecules";
 import { SearchBar } from "@/features/contracts/components";
 import { ContractList } from "@/features/contracts/components/ContractList";
+import { Suspense } from "react";
 
 export default function ContractsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header title="All Contracts" className="shrink-0" />
-      <main className="bg-neutral-light flex-1 overflow-auto p-4 space-y-3">
+      <main className="flex-1 space-y-3 bg-neutral-light p-4 overflow-auto">
         <SearchBar />
-        <ContractList />
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <ContractList />
+        </Suspense>
       </main>
       <footer className="shrink-0">
         <Dock />

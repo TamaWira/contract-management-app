@@ -1,7 +1,7 @@
 import { CONTRACT_STATUSES } from "@/constants/contractStatuses";
 
 export type Contract = {
-  id: string;
+  id: number;
   avatarUrl: string;
   name: string;
   description: string;

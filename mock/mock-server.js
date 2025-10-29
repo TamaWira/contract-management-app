@@ -5,6 +5,9 @@ const app = express();
 app.use(cors());
 app.use(json());
 
+// Helper function for delay
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const contracts = [
   {
     id: 1,
@@ -44,8 +47,15 @@ const contracts = [
   },
 ];
 
-app.get("/api/contracts", (req, res) => {
-  res.json(contracts);
+app.get("/api/contracts", async (req, res) => {
+  const { status } = req.query;
+  const filteredContracts =
+    status && status !== "All"
+      ? contracts.filter((contract) => contract.status === status)
+      : contracts;
+
+  await delay(750);
+  res.json(filteredContracts);
 });
 
 app.post("/api/contracts", (req, res) => {

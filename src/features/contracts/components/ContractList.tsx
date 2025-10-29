@@ -1,62 +1,56 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Contract } from "../contracts.types";
 import { ContractCard } from "./ContractCard";
-import { ContractSection } from "./ContractSection";
+import { StatusBars } from "./StatusBars";
 
 export function ContractList() {
-  const contracts: Contract[] = [
-    {
-      id: "1",
-      avatarUrl:
-        "https://www.shutterstock.com/image-photo/happy-handsome-young-african-american-600nw-2432719071.jpg",
-      name: "Contract A",
-      description: "Description for Contract A",
-      status: "Signed",
-      date: new Date(),
-    },
-    {
-      id: "2",
-      avatarUrl:
-        "https://www.shutterstock.com/image-photo/happy-young-european-professional-business-260nw-2500948659.jpg",
-      name: "Contract A",
-      description: "Description for Contract A",
-      status: "Pending",
-      date: new Date(),
-    },
-    {
-      id: "3",
-      avatarUrl:
-        "https://www.shutterstock.com/image-photo/profile-picture-smiling-successful-young-260nw-2040223583.jpg",
-      name: "Contract A",
-      description: "Description for Contract A",
-      status: "Terminated",
-      date: new Date(),
-    },
-    {
-      id: "4",
-      avatarUrl:
-        "https://www.shutterstock.com/image-photo/profile-picture-smiling-successful-young-260nw-2040223583.jpg",
-      name: "Contract A",
-      description: "Description for Contract A",
-      status: "Terminated",
-      date: new Date(),
-    },
-  ];
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
+
+  useEffect(() => {
+    const fetchContracts = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/contracts?status=${status}`,
+        );
+        setContracts(await data.json());
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchContracts();
+  }, [status]);
+
+  const handleStatusChange = (newStatus: string) => {
+    setStatus(newStatus);
+  };
 
   return (
     <div className="space-y-6 mb-16">
-      <ContractSection />
-      <div className="space-y-4">
-        {contracts.map((contract) => (
-          <ContractCard
-            key={contract.id}
-            avatarUrl={contract.avatarUrl}
-            name={contract.name}
-            description={contract.description}
-            status={contract.status}
-            date={contract.date}
-          />
-        ))}
-      </div>
+      <StatusBars action={handleStatusChange} activeStatus={status} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="space-y-4">
+          {contracts.map((contract) => (
+            <ContractCard
+              key={contract.id}
+              avatarUrl={contract.avatarUrl}
+              name={contract.name}
+              description={contract.description}
+              status={contract.status}
+              date={contract.date}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

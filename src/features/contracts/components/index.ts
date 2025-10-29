@@ -1,2 +1,2 @@
 export { SearchBar } from "./SearchBar";
-export { ContractSection } from "./ContractSection";
+export { StatusBars } from "./StatusBars";
