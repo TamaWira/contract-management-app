@@ -1,14 +1,8 @@
 import { Avatar, Card } from "@/components/atoms";
 import { StatusBadge } from "@/components/molecules/StatusBadge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { formatDate } from "@/utils";
-import { EllipsisVertical, Eye, Link2, Link2Off, Pencil } from "lucide-react";
 import { Contract } from "../types";
+import { ContractCardDropdown } from "./ContractCardDropdown";
 
 type Props = {
   contract: Contract;
@@ -28,31 +22,7 @@ export function ContractCard({ contract }: Props) {
             </p>
           </div>
         </div>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="rounded-full hover:bg-neutral-light p-2 outline-none">
-              <EllipsisVertical size={18} className="text-neutral-dark" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" side="bottom" collisionPadding={8}>
-              <DropdownMenuItem>
-                <Eye />
-                <p>View</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Pencil />
-                <p>Edit</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link2 />
-                <p>Copy Link</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link2Off />
-                <p>Terminate</p>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <ContractCardDropdown contract={contract} />
       </div>
 
       {/* Lower section */}
