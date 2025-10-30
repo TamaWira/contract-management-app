@@ -1,10 +1,6 @@
 export enum CONTRACT_STATUSES {
+  ALL = "All",
   PENDING = "Pending",
   SIGNED = "Signed",
   TERMINATED = "Terminated",
 }
-
-export const ALL_CONTRACT_STATUSES = Object.values({
-  ALL: "All",
-  ...CONTRACT_STATUSES,
-});

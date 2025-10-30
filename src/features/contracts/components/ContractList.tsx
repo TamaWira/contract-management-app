@@ -1,35 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Contract } from "../contracts.types";
+import { useState } from "react";
+import { useContracts } from "../hooks/useContracts";
 import { ContractCard } from "./ContractCard";
-import { StatusBars } from "./StatusBars";
 import { ContractListSkeleton } from "./ContractListSkeleton";
+import { StatusBars } from "./StatusBars";
+import { ContractStatus } from "../types";
 
 export function ContractList() {
-  const [contracts, setContracts] = useState<Contract[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<ContractStatus>("All");
+  const { data: contracts, isLoading } = useContracts({ status });
 
-  useEffect(() => {
-    const fetchContracts = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/contracts?status=${status}`
-        );
-        setContracts(await data.json());
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContracts();
-  }, [status]);
-
-  const handleStatusChange = (newStatus: string) => {
+  const handleStatusChange = (newStatus: ContractStatus) => {
     setStatus(newStatus);
   };
 
@@ -40,16 +22,10 @@ export function ContractList() {
         <ContractListSkeleton />
       ) : (
         <div className="space-y-4">
-          {contracts.map((contract) => (
-            <ContractCard
-              key={contract.id}
-              avatarUrl={contract.avatarUrl}
-              name={contract.name}
-              description={contract.description}
-              status={contract.status}
-              date={contract.date}
-            />
-          ))}
+          {contracts &&
+            contracts.map((contract) => (
+              <ContractCard key={contract.id} contract={contract} />
+            ))}
         </div>
       )}
     </div>

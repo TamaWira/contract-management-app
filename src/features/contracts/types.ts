@@ -8,3 +8,11 @@ export type Contract = {
   status: `${CONTRACT_STATUSES}`;
   date: Date | string;
 };
+
+export type ContractStatus = "All" | "Pending" | "Signed" | "Terminated";
+
+export type GetContractsParams = {
+  status?: `${CONTRACT_STATUSES}`;
+  limit?: number;
+  offset?: number;
+};

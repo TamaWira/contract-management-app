@@ -1,10 +1,11 @@
 import { Card } from "@/components/atoms";
 import { cn } from "@/utils";
+import { ContractStatus } from "../types";
 
 type Props = {
-  status: string;
+  status: ContractStatus;
   activeStatus: string;
-  action: (status: string) => void;
+  action: (status: ContractStatus) => void;
 };
 
 export function StatusBar({ status, activeStatus, action }: Props) {

@@ -6,34 +6,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatDate } from "@/lib/utils";
+import { formatDate } from "@/utils";
 import { EllipsisVertical, Eye, Link2, Link2Off, Pencil } from "lucide-react";
+import { Contract } from "../types";
 
 type Props = {
-  avatarUrl: string;
-  name: string;
-  description: string;
-  status: string;
-  date: Date | string;
+  contract: Contract;
 };
 
-export function ContractCard({
-  avatarUrl,
-  name,
-  description,
-  status,
-  date,
-}: Props) {
+export function ContractCard({ contract }: Props) {
   return (
     <Card className="p-4 space-y-4">
       {/* Upper section */}
       <div className="flex justify-between">
         <div className="flex items-center gap-3">
-          <Avatar avatarUrl={avatarUrl} />
+          <Avatar avatarUrl={contract.avatarUrl} />
           <div>
-            <p className="font-semibold">{name}</p>
+            <p className="font-semibold">{contract.name}</p>
             <p className="text-neutral-dark/70 text-sm font-medium">
-              {description}
+              {contract.description}
             </p>
           </div>
         </div>
@@ -66,9 +57,9 @@ export function ContractCard({
 
       {/* Lower section */}
       <div className="flex items-center justify-between">
-        <StatusBadge status={status} />
+        <StatusBadge status={contract.status} />
         <p className="text-sm text-neutral-dark/70 font-medium">
-          {formatDate(date)}
+          {formatDate(contract.date)}
         </p>
       </div>
     </Card>
