@@ -1,7 +1,6 @@
 import { Dock, Header } from "@/components/molecules";
 import { SearchBar } from "@/features/contracts/components";
 import { ContractList } from "@/features/contracts/components/ContractList";
-import { Suspense } from "react";
 
 export default function ContractsPage() {
   return (
@@ -9,10 +8,7 @@ export default function ContractsPage() {
       <Header title="All Contracts" className="shrink-0" />
       <main className="flex-1 space-y-3 bg-neutral-light p-4 overflow-auto">
         <SearchBar />
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <ContractList />
-        </Suspense>
+        <ContractList />
       </main>
       <footer className="shrink-0">
         <Dock />

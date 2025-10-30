@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Contract } from "../contracts.types";
 import { ContractCard } from "./ContractCard";
 import { StatusBars } from "./StatusBars";
+import { ContractListSkeleton } from "./ContractListSkeleton";
 
 export function ContractList() {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -15,7 +16,7 @@ export function ContractList() {
       try {
         setIsLoading(true);
         const data = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/contracts?status=${status}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/contracts?status=${status}`
         );
         setContracts(await data.json());
       } catch (error) {
@@ -36,7 +37,7 @@ export function ContractList() {
     <div className="space-y-6 mb-16">
       <StatusBars action={handleStatusChange} activeStatus={status} />
       {isLoading ? (
-        <div>Loading...</div>
+        <ContractListSkeleton />
       ) : (
         <div className="space-y-4">
           {contracts.map((contract) => (
