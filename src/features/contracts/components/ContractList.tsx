@@ -6,10 +6,11 @@ import { ContractCard } from "./ContractCard";
 import { ContractListSkeleton } from "./ContractListSkeleton";
 import { StatusBars } from "./StatusBars";
 import { ContractStatus } from "../types";
+import { ContractsEmpty } from "./ContractsEmpty";
 
 export function ContractList() {
   const [status, setStatus] = useState<ContractStatus>("All");
-  const { data: contracts, isLoading } = useContracts({ status });
+  const { data: contracts, isLoading, error } = useContracts({ status });
 
   const handleStatusChange = (newStatus: ContractStatus) => {
     setStatus(newStatus);
@@ -20,6 +21,8 @@ export function ContractList() {
       <StatusBars action={handleStatusChange} activeStatus={status} />
       {isLoading ? (
         <ContractListSkeleton />
+      ) : !contracts || !contracts.length || error ? (
+        <ContractsEmpty error={error} />
       ) : (
         <div className="space-y-4">
           {contracts &&
